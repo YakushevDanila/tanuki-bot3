@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: tanuki-bot
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m bot.main
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: SPREADSHEET_ID
+        sync: false
+      - key: ALLOWED_USER_ID
+        sync: false
