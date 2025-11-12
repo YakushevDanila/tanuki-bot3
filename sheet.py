@@ -47,7 +47,7 @@ class GoogleSheetsManager:
                 # Create new worksheet if doesn't exist
                 self.worksheet = self.spreadsheet.add_worksheet(title='Смены', rows=1000, cols=10)
                 # Add headers
-                self.worksheet.update('A1:F1', [['Дата', 'Начало', 'Конец', 'Выручка', 'Чаевые', 'Прибыль']])
+                self.worksheet.update('A1:G1', [['Дата', 'Начало', 'Конец', 'Выручка', 'Чаевые', 'Часы', 'Прибыль']])
             
             self.initialized = True
             logger.info("✅ Google Sheets initialized successfully")
