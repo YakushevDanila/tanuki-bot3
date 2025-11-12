@@ -139,7 +139,7 @@ class GoogleSheetsManager:
                 else:
                     # Add new record
                     profit = self._calculate_profit(start, end, 0, 0)
-                    new_row = [formatted_date, start, end, '', '', profit]
+                    new_row = [formatted_date, start, end, '', '', hours, profit]
                     await asyncio.to_thread(
                         self.worksheet.append_row,
                         new_row,
@@ -183,7 +183,7 @@ class GoogleSheetsManager:
                 'выручка': 'D',
                 'чай': 'E',
                 'часы': F,
-                'Прибыль' G
+                'Прибыль': G
             }
             
             column = column_mapping.get(field.lower())
@@ -253,7 +253,7 @@ class GoogleSheetsManager:
             end_time = end_cell.value if end_cell.value else "00:00"
             revenue = revenue_cell.value if revenue_cell.value else "0"
             tips = tips_cell.value if tips_cell.value else "0"
-            hours = hours .value if hours.value else "00:00"
+            hours = hours.value if hours.value else "00:00"
             existing_profit = profit_cell.value if profit_cell.value else "0"
             
             # Calculate profit using new formula
@@ -263,7 +263,7 @@ class GoogleSheetsManager:
             if abs(float(existing_profit.replace(',', '.')) - profit) > 0.01:
                 await asyncio.to_thread(
                     self.worksheet.update,
-                    g'G{row}',
+                    f'G{row}',
                     [[profit]],
                     value_input_option=ValueInputOption.user_entered
                 )
