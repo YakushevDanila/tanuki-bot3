@@ -61,6 +61,7 @@ class GoogleSheetsManager:
         try:
             start = datetime.strptime(start_time, "%H:%M")
             end = datetime.strptime(end_time, "%H:%M")
+
             
             # Handle overnight shifts
             if end < start:
@@ -180,7 +181,8 @@ class GoogleSheetsManager:
                 'начало': 'B',
                 'конец': 'C', 
                 'выручка': 'D',
-                'чай': 'E'
+                'чай': 'E',
+                'часы': F
             }
             
             column = column_mapping.get(field.lower())
@@ -200,6 +202,7 @@ class GoogleSheetsManager:
             end_cell = await asyncio.to_thread(self.worksheet.cell, row, 3)    # Column C
             revenue_cell = await asyncio.to_thread(self.worksheet.cell, row, 4) # Column D
             tips_cell = await asyncio.to_thread(self.worksheet.cell, row, 5)   # Column E
+            hours = await asyncio.to_thread(self.worksheet.cell, row, 6) # Column F
             
             start_time = start_cell.value if start_cell.value else "00:00"
             end_time = end_cell.value if end_cell.value else "00:00"
@@ -242,12 +245,14 @@ class GoogleSheetsManager:
             end_cell = await asyncio.to_thread(self.worksheet.cell, row, 3)    # Column C
             revenue_cell = await asyncio.to_thread(self.worksheet.cell, row, 4) # Column D
             tips_cell = await asyncio.to_thread(self.worksheet.cell, row, 5)   # Column E
-            profit_cell = await asyncio.to_thread(self.worksheet.cell, row, 6) # Column F
+            hours = await asyncio.to_thread(self.worksheet.cell, row, 6) # Column F
+            profit_cell = await asyncio.to_thread(self.worksheet.cell, row, 7) # Column G
             
             start_time = start_cell.value if start_cell.value else "00:00"
             end_time = end_cell.value if end_cell.value else "00:00"
             revenue = revenue_cell.value if revenue_cell.value else "0"
             tips = tips_cell.value if tips_cell.value else "0"
+            hours = hours .value if hours.value else "00:00"
             existing_profit = profit_cell.value if profit_cell.value else "0"
             
             # Calculate profit using new formula
@@ -257,7 +262,7 @@ class GoogleSheetsManager:
             if abs(float(existing_profit.replace(',', '.')) - profit) > 0.01:
                 await asyncio.to_thread(
                     self.worksheet.update,
-                    f'F{row}',
+                    g'G{row}',
                     [[profit]],
                     value_input_option=ValueInputOption.user_entered
                 )
