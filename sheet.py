@@ -138,7 +138,7 @@ class GoogleSheetsManager:
                     logger.info(f"📝 Updated existing shift: {formatted_date}")
                 else:
                     # Add new record
-                    profit = self._calculate_profit(start, end, 0, 0)
+                    profit = self._calculate_profit(start, end, 0, 0, hours)
                     new_row = [formatted_date, start, end, '', '', hours, profit]
                     await asyncio.to_thread(
                         self.worksheet.append_row,
@@ -209,11 +209,12 @@ class GoogleSheetsManager:
             end_time = end_cell.value if end_cell.value else "00:00"
             revenue = revenue_cell.value if revenue_cell.value else "0"
             tips = tips_cell.value if tips_cell.value else "0"
+            hours = hours.value if hours.value else "0"
             
             profit = self._calculate_profit(start_time, end_time, revenue, tips)
             await asyncio.to_thread(
                 self.worksheet.update,
-                f'F{row}',
+                f'G{row}',
                 [[profit]],
                 value_input_option=ValueInputOption.user_entered
             )
