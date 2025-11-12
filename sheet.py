@@ -130,7 +130,7 @@ class GoogleSheetsManager:
                     profit = self._calculate_profit(start, end, revenue, tips)
                     await asyncio.to_thread(
                         self.worksheet.update,
-                        f'F{row}',
+                        f'G{row}',
                         [[profit]],
                         value_input_option=ValueInputOption.user_entered
                     )
@@ -182,7 +182,8 @@ class GoogleSheetsManager:
                 'конец': 'C', 
                 'выручка': 'D',
                 'чай': 'E',
-                'часы': F
+                'часы': F,
+                'Прибыль' G
             }
             
             column = column_mapping.get(field.lower())
